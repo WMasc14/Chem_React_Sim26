@@ -25,8 +25,12 @@ def simulate(params: Params):
     return run_simulation(params.dict())
 
 # Serve the production React build if it exists
-app.mount(
-    "/",
-    StaticFiles(directory="dist", html=True),
-    name="static",
-)
+try:
+    app.mount(
+        "/",
+        StaticFiles(directory="dist", html=True),
+        name="static",
+    )
+except RuntimeError:
+    # Directory 'dist' does not exist, skip static files
+    pass
